@@ -21,7 +21,38 @@ start_basket_obj.name = 'Start Basket'
 bucket_locations = [(2, 2, 0), (-2, 2, 0), (2, -2, 0)]
 target_buckets = []
 for i, location in enumerate(bucket_locations):
+    # Create box base
     bpy.ops.mesh.primitive_cube_add(size=1)
+    box_obj = bpy.context.active_object
+    box_obj.scale = (1.5, 1.2, 1)
+
+    # Create door objects
+    door_width = 0.4
+    door_height = 0.8
+    door_depth = 0.05
+
+    door1_obj = bpy.ops.mesh.primitive_cube_add(size=1)
+    door1_obj = bpy.context.active_object
+    door1_obj.scale = (door_width, door_depth, door_height)
+    door1_obj.location = (-0.5 + door_width/2, 0, door_height/2)
+
+    door2_obj = bpy.ops.mesh.primitive_cube_add(size=1)
+    door2_obj = bpy.context.active_object
+    door2_obj.scale = (door_width, door_depth, door_height)
+    door2_obj.location = (0.5 - door_width/2, 0, door_height/2)
+
+    # Add materials to the objects
+    box_material = bpy.data.materials.new(name="Box Material")
+    box_material.diffuse_color = (
+        0.8, 0.6, 0.4, 1.0)  # Set the color of the box
+    box_obj.data.materials.append(box_material)
+
+    door_material = bpy.data.materials.new(name="Door Material")
+    # Set the color of the doors
+    door_material.diffuse_color = (0.3, 0.3, 0.3, 1.0)
+    door1_obj.data.materials.append(door_material)
+    door2_obj.data.materials.append(door_material)
+
     bucket_obj = bpy.context.active_object
     bucket_obj.location = location
     bucket_obj.name = f'Target Bucket {i+1}'
